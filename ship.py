@@ -3,6 +3,7 @@ class Ship:
         self.__ship = {'location': [x_location, y_location], 'speed': [x_speed, y_speed]}
         self.__heading = heading
         self.__life = life
+        self.RADIUS = 1
 
     def set_location(self, location):
         self.__ship['location'] = [location[0], location[1]]
@@ -25,8 +26,6 @@ class Ship:
     def get_direction(self):
         return self.__heading
 
-    def get_radius(self):
-        return 1
 
     def get_life(self):
         return self.__life
