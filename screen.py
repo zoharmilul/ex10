@@ -454,7 +454,6 @@ class Screen:
         self._fireClicks -= 1 if res else 0
         return res
 
-
     def show_message(self,title, msg):
         """
         This is a method used to show messages in the game.

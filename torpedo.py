@@ -5,8 +5,7 @@ class Torpedo:
         self.__direction = direction
 
     def set_location(self, location):
-        self.__torpedo["location"][0] = location[0]
-        self.__torpedo["location"][1] = location[1]
+        self.__torpedo["location"] = [location[0], location[1]]
 
     def set_direction(self, direction):
         self.__direction = direction
@@ -20,5 +19,6 @@ class Torpedo:
     def get_direction(self):
         return self.__direction
 
-
+    def get_radius(self):
+        return 4
 
