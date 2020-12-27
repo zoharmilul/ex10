@@ -1,14 +1,17 @@
 from screen import Screen
 import sys
 import ship
+import math
 import random
 
 DEFAULT_ASTEROIDS_NUM = 5
 
-X_AXES = 0
-Y_AXES = 1
-DELTA = {X_AXES: Screen.SCREEN_MAX_X - Screen.SCREEN_MIN_X,
-         Y_AXES :Screen.SCREEN_MAX_Y - Screen.SCREEN_MIN_Y}
+X_AXIS = 0
+Y_AXIS = 1
+DELTA = {X_AXIS: Screen.SCREEN_MAX_X - Screen.SCREEN_MIN_X,
+         Y_AXIS: Screen.SCREEN_MAX_Y - Screen.SCREEN_MIN_Y}
+CLOCKWISE = 1
+COUNTER_CLOCKWISE = 0
 class GameRunner:
 
     def __init__(self, asteroids_amount):
@@ -36,18 +39,34 @@ class GameRunner:
         self.__screen.draw_ship(self.__main_ship.get_location()[0],
                                 self.__main_ship.get_location()[1],
                                 self.__main_ship.get_direction())
-
-        self.__main_ship.set_location((calc_new_position(self.__main_ship, X_AXES), calc_new_position(self.__main_ship, Y_AXES)))
+        if self.__screen.is_right_pressed():
+            change_heading(self.__main_ship, CLOCKWISE)
+        if self.__screen.is_left_pressed():
+            change_heading(self.__main_ship, COUNTER_CLOCKWISE)
+        if self.__screen.is_up_pressed():
+            speed_up_ship(self.__main_ship)
+        self.__main_ship.set_location((calc_new_position(self.__main_ship, X_AXIS), calc_new_position(self.__main_ship, Y_AXIS)))
         # TODO: Your code goes here
         pass
 
 
-def calc_new_position(game_obj, axes):
-    old_pos = game_obj.get_location()[axes]
-    if axes == X_AXES:
-        return Screen.SCREEN_MIN_X + (old_pos + game_obj.get_speed()[axes] - Screen.SCREEN_MIN_X) % DELTA[axes]
-    if axes == Y_AXES:
-        return Screen.SCREEN_MIN_Y + (old_pos + game_obj.get_speed()[axes] - Screen.SCREEN_MIN_Y) % DELTA[axes]
+def calc_new_position(game_obj, axis):
+    old_pos = game_obj.get_location()[axis]
+    if axis == X_AXIS:
+        return Screen.SCREEN_MIN_X + (old_pos + game_obj.get_speed()[axis] - Screen.SCREEN_MIN_X) % DELTA[axis]
+    if axis == Y_AXIS:
+        return Screen.SCREEN_MIN_Y + (old_pos + game_obj.get_speed()[axis] - Screen.SCREEN_MIN_Y) % DELTA[axis]
+
+def change_heading(ship, direction):
+    if direction == CLOCKWISE:
+        ship.set_direction(ship.get_direction() - 7)
+    if direction == COUNTER_CLOCKWISE:
+        ship.set_direction(ship.get_direction() + 7)
+
+def speed_up_ship(ship):
+    speed_x = ship.get_speed()[0] + math.cos(math.radians(ship.get_direction()))
+    speed_y = ship.get_speed()[1] + math.sin(math.radians(ship.get_direction()))
+    ship.set_speed((speed_x,speed_y))
 
 def main(amount):
     runner = GameRunner(amount)
