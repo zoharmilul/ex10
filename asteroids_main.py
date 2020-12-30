@@ -62,7 +62,7 @@ class GameRunner:
         self.__main_ship.set_location((calc_new_position(self.__main_ship, X_AXIS),
                                        calc_new_position(self.__main_ship, Y_AXIS)))
 
-        #updating torpedo life
+        # updating torpedo life
         self.update_torpedo_life()
 
         # handling key pressed
@@ -77,7 +77,7 @@ class GameRunner:
             if len(self.__torpedos_list) < 10:
                 self.fire_new_torp()
 
-        #draws torpedos
+        # draws torpedos
         for torpedos in self.__torpedos_list:
             self.__screen.draw_torpedo(torpedos,
                                        torpedos.get_location()[X_AXIS],
@@ -101,8 +101,8 @@ class GameRunner:
 
         # end the game
         if not self.__asteroids_lst:
-            self.__screen.show_message("CONGRATZ!" , "you are one motherfucker bitch ass asteroids killer! you won! \n"
-                                                      f"your score is {self.__score}")
+            self.__screen.show_message("CONGRATZ!", "you are one motherfucker bitch ass asteroids killer! you won! \n"
+                                                    f"your score is {self.__score}")
             self.__screen.end_game()
             sys.exit()
 
@@ -161,7 +161,7 @@ class GameRunner:
         self.__asteroids_lst.remove(ast)
 
 
-def create_new_ast(old_ast, torp_speed, order = "first"):
+def create_new_ast(old_ast, torp_speed, order="first"):
     new_speed = calc_new_ast_speed(torp_speed, old_ast.get_speed())
     if order == "second":
         new_speed = (-new_speed[X_AXIS], - new_speed[Y_AXIS])
@@ -187,15 +187,18 @@ def change_heading(ship, direction):
     if direction == COUNTER_CLOCKWISE:
         ship.set_direction(ship.get_direction() + HEADING_DIF)
 
+
 def calc_new_ast_speed(torpedo_speed, astroid_speed):
     new_speed_x = (torpedo_speed[X_AXIS] + astroid_speed[X_AXIS])/math.sqrt(astroid_speed[0]**2 + astroid_speed[1]**2)
     new_speed_y = (torpedo_speed[Y_AXIS] + astroid_speed[Y_AXIS])/math.sqrt(astroid_speed[0]**2 + astroid_speed[1]**2)
     return new_speed_x, new_speed_y
 
+
 def speed_up_ship(ship):
     speed_x = ship.get_speed()[0] + math.cos(math.radians(ship.get_direction()))
     speed_y = ship.get_speed()[1] + math.sin(math.radians(ship.get_direction()))
     ship.set_speed((speed_x, speed_y))
+
 
 def get_torpedo_speed(ship):
     ship_heading = ship.get_direction()
@@ -203,6 +206,7 @@ def get_torpedo_speed(ship):
     speed_x = ship_speed[X_AXIS] + 2 * math.cos(math.radians(ship_heading))
     speed_y = ship_speed[Y_AXIS] + 2 * math.sin(math.radians(ship_heading))
     return speed_x, speed_y
+
 
 def main(amount):
     runner = GameRunner(amount)
